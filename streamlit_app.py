@@ -8,12 +8,13 @@ import requests
 
 SVG_SOURCE_URL = "https://api.shn.gob.ar/imagenes-modelo/curvas_altura-total/Alturatotal_Palermo.svg"
 
+# Drafts reduced by 1.00 meter (Alongside w/out Gangway)
 DRAFT_BY_TIDE = {
-    -0.1: 7.30, 0.0: 7.40, 0.1: 7.50, 0.2: 7.60, 0.3: 7.70,
-    0.4: 7.80, 0.5: 7.90, 0.6: 8.00, 0.7: 8.10, 0.8: 8.20,
-    0.9: 8.30, 1.0: 8.40, 1.1: 8.50, 1.2: 8.60, 1.3: 8.70,
-    1.4: 8.80, 1.5: 8.90, 1.6: 9.00, 1.7: 9.10, 1.8: 9.20,
-    1.9: 9.30, 2.0: 9.40, 2.1: 9.50, 2.2: 9.60
+    -0.1: 6.30, 0.0: 6.40, 0.1: 6.50, 0.2: 6.60, 0.3: 6.70,
+    0.4: 6.80, 0.5: 6.90, 0.6: 7.00, 0.7: 7.10, 0.8: 7.20,
+    0.9: 7.30, 1.0: 7.40, 1.1: 7.50, 1.2: 7.60, 1.3: 7.70,
+    1.4: 7.80, 1.5: 7.90, 1.6: 8.00, 1.7: 8.10, 1.8: 8.20,
+    1.9: 8.30, 2.0: 8.40, 2.1: 8.50, 2.2: 8.60
 }
 
 TOLERANCE = 0.051
@@ -64,13 +65,13 @@ def modify_svg(svg):
         replacement = (
             f'<text x="115" y="{y}" '
             f'text-anchor="end" font-size="20" fill="blue">'
-            f'Tide {key:.1f} = Draft with Gangway {draft:.2f} m'
+            f'Tide {key:.1f} = Draft Alongside w/out Gangway {draft:.2f} m'
             f'</text>'
         )
 
         out = out.replace(full + raw + "</text>", replacement)
 
-    new_title = "BUENOS AIRES Wind Corrected Tides with Sailing Drafts"
+    new_title = "BUENOS AIRES Wind Corrected Tides - Draft Alongside (w/out Gangway)"
 
     out = re.sub(
         r"Altura del nivel del agua.*?\)",
@@ -86,10 +87,10 @@ def modify_svg(svg):
 # STREAMLIT UI
 # -------------------------------
 
-st.set_page_config(page_title="Buenos Aires Draft Calculator", layout="wide")
+st.set_page_config(page_title="Buenos Aires Draft Alongside Calculator", layout="wide")
 
 st.title("🚢 Buenos Aires Draft Calculator")
-st.write("Click below to fetch the latest SHN data and apply sailing drafts.")
+st.write("Draft Alongside (w/out Gangway) — values adjusted 1.00 m below gangway configuration.")
 
 if st.button("Generate Report"):
 
@@ -101,7 +102,6 @@ if st.button("Generate Report"):
 
             svg_modified = modify_svg(response.text)
 
-            # Styled container to control size and keep it professional
             styled_svg = f"""
             <div style="
                 display:flex;
@@ -126,7 +126,7 @@ if st.button("Generate Report"):
             st.download_button(
                 label="Download Report (SVG)",
                 data=svg_modified,
-                file_name="Buenos_Aires_Draft_Report.svg",
+                file_name="Buenos_Aires_Draft_Alongside.svg",
                 mime="image/svg+xml"
             )
 
