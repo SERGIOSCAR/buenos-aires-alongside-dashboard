@@ -65,7 +65,7 @@ def modify_svg(svg):
         replacement = (
             f'<text x="115" y="{y}" '
             f'text-anchor="end" font-size="20" fill="blue">'
-            f'Tide {key:.1f} = Draft A/S w/out Gangway {draft:.2f} m'
+            f'Tide {key:.1f} = Draft Alongside {draft:.2f} m'
             f'</text>'
         )
 
@@ -132,4 +132,5 @@ if st.button("Generate Report"):
 
         except Exception as e:
             st.error(f"Error generating report: {e}")
+
 
